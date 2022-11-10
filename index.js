@@ -1,62 +1,124 @@
-//Record the round number the player is on. Start it on 1
-//Provide the player with a way to choose between rock, paper or scissors
-//The player will play against the computer so return either rock,paper or scissors
-//Once a round ends, record it somewhere so the player can see the results of the previous rounds
-//Next, check who won that round and record the score
-//If the player or the computer won or it's a draw:
-  //1. Display "Win","Lose" and "Draw" respectively
-  //2. Let the player choose again and return one of the 3 again
-  //3. Increment the round number by 1
-//If the player's score is more than the computer's:
-  //1. Display congratulations message
-  //2. Stop the player from being able to choose again
-  //3. Display control allowing the player to restart the game
-//If the computer's score is more than the player's, tell the player they lost and repeat steps 2 and 3 above
-//If the scores are the same, tell the player it's a tie and repeat steps 2 and 3
-//When game restarts, make sure everything resets and start from step 1
-//Provide instructions on how to play
+const start = document.querySelector('.start');
+const game = document.querySelector('.game');
+const startBtn = document.querySelector('.btn');
+startBtn.addEventListener('click', () => {
+  start.classList.add('hidden');
+  game.classList.remove('hidden');
+});
 
+
+//Get computer's choice
 const choice = ['rock', 'paper', 'scissors'];
-let playerScore = 0;
-let computerScore = 0;
-
 function getComputerChoice() {
   return choice[Math.floor(Math.random() * choice.length)]
 }
 
-function round(playerSelection, computerSelection) {
-  if ((playerSelection.toLowerCase() === 'rock' && computerSelection === 'paper')
-      || (playerSelection.toLowerCase() === 'paper' && computerSelection === 'scissors')
-      || (playerSelection.toLowerCase() === 'scissors' && computerSelection === 'rock')) {
-        alert ('You lose!');
+//Provide the player with a way to choose between rock, paper or scissors
+const rockBtn = document.getElementsByClassName('btns')[0];
+const paperBtn = document.getElementsByClassName('btns')[1];
+const scissorsBtn = document.getElementsByClassName('btns')[2];
+
+rockBtn.addEventListener('click', getComputerChoice(),'rock');
+paperBtn.addEventListener('click', getComputerChoice(),'paper');
+scissorsBtn.addEventListener('click', getComputerChoice(),'scissors');
+
+//record the round number the player is on. Start it on 1
+let round = 1;
+document.querySelector('.round').textContent = `Round ${round}`;
+
+//record scores
+let playerScore = 0;
+let computerScore = 0;
+
+//Game:if the player or the computer won or it's a draw:
+  //1. Display "Win","Lose" and "Draw" respectively
+  //2. Let the player choose again and return one of the 3 again
+  //3. Increment the round number by 1
+  //4. let player see previous choices
+const result = document.querySelector('.result');
+const choices = document.querySelector('.choices');
+const computerSelection = getComputerChoice();
+
+function playRound(playerSelection, computerSelection) {
+  if (round === 1) {
+    choices.textContent = 'Previous choices: ';
+  }
+  choices.textContent += `${playerSelection} `
+  if ((playerSelection === 'rock' && computerSelection === 'paper') ||
+      (playerSelection === 'paper' && computerSelection === 'scissors') ||
+      (playerSelection === 'scissors' && computerSelection === 'rock')) {
+        result.textContent = `You lost! Death chose ${computerSelection}`;
         computerScore++;
-      } else if ((playerSelection.toLowerCase() === 'rock' && computerSelection === 'scissors')
-      || (playerSelection.toLowerCase() === 'paper' && computerSelection === 'rock')
-      || (playerSelection.toLowerCase() === 'scissors' && computerSelection === 'paper')) {
-        alert('You win!');
+      } else if ((playerSelection === 'rock' && computerSelection === 'scissors') ||
+      (playerSelection === 'paper' && computerSelection === 'rock') ||
+      (playerSelection === 'scissors' && computerSelection === 'paper')) {
+        result.textContent = `You won! Death chose ${computerSelection}`;
         playerScore++;
+      } else if (round === 5) {
+        setGameOver();
       } else {
-        alert('Draw!');
+        result.textContent = `Draw! You and death both chose ${computerSelection}`;
       }
+
+      round++;
+      document.querySelector('.round').textContent = `Round ${round}`;
 }
 
-function game() {
-  for (let i = 0; i < 5; i++) {
-    const playerSelection = prompt('Choose rock, paper or scissors');
-    const computerSelection = getComputerChoice();
-    round(playerSelection, computerSelection);
-  }
-  result();
-}
-
-function result() {
+//display message after game over
+function setGameOver() {
+  toggle();
   if (playerScore > computerScore) {
-    alert('Congratulations! You win!')
+    displayMessage('Congrats! You defeated death!', 'win')
   } else if (playerScore < computerScore) {
-    alert('You lost! Better luck next time!')
+    displayMessage('Oh no! You died!', 'lose')
   } else {
-    alert("It's a tie!")
+    displayMessage("It's a tie!")
   }
 }
 
-game();
+function toggle() {
+  const blur = document.getElementById('blur');
+  blur.classList.toggle('active');
+}
+
+function displayMessage(msgText, msgType) {
+
+  const panel = document.createElement('div');
+  panel.classList.add('msgBox');
+  game.appendChild(panel);
+
+  const msg = document.createElement('p');
+  msg.textContent = msgText;
+  panel.appendChild(msg);
+
+  const closeBtn = document.createElement('div');
+  closeBtn.textContent = 'Play Again';
+  closeBtn.classList.add('btn');
+  panel.appendChild(closeBtn);
+
+  closeBtn.addEventListener('click', resetGame);
+
+  if (msgType === 'win') {
+    msg.style.backgroundImage = '';
+  } else if (msgType === 'lose') {
+    msg.style.backgroundImage = ''
+  } else {
+    msg.style.paddingLeft = '20px';
+  }
+}
+
+//When game restarts, make sure everything resets and start from step 1
+function resetGame() {
+  toggle();
+
+  panel.parentNode.removeChild(panel);
+
+  round = 1;
+
+  const resetParas = document.querySelectorAll('.resultParas p');
+  for (const resetPara of resetParas) {
+    resetPara.textContent = '';
+  }
+
+  getComputerChoice();
+}
