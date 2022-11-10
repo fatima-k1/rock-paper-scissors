@@ -113,3 +113,7 @@ h3 {
     padding: 10px;
     cursor: pointer;
 }
+
+.result, .choices {
+    font-size: 30px;
+}

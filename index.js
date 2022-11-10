@@ -18,9 +18,9 @@ const rockBtn = document.getElementsByClassName('btns')[0];
 const paperBtn = document.getElementsByClassName('btns')[1];
 const scissorsBtn = document.getElementsByClassName('btns')[2];
 
-rockBtn.addEventListener('click', getComputerChoice(),'rock');
-paperBtn.addEventListener('click', getComputerChoice(),'paper');
-scissorsBtn.addEventListener('click', getComputerChoice(),'scissors');
+rockBtn.addEventListener('click', () => playRound('rock', computerSelection));
+paperBtn.addEventListener('click', () => playRound('paper', computerSelection));
+scissorsBtn.addEventListener('click', () => playRound('scissors', computerSelection));
 
 //record the round number the player is on. Start it on 1
 let round = 1;
