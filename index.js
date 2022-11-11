@@ -99,11 +99,11 @@ function displayMessage(msgText, msgType) {
   closeBtn.addEventListener('click', resetGame);
 
   if (msgType === 'win') {
-    msg.style.backgroundImage = '';
+    msg.style.backgroundImage = 'url(images/winner.png)';
   } else if (msgType === 'lose') {
-    msg.style.backgroundImage = ''
+    msg.style.backgroundImage = 'url(images/skull.png)';
   } else {
-    msg.style.paddingLeft = '20px';
+    msg.style.paddingLeft = '50px';
   }
 }
 
