@@ -1,6 +1,6 @@
 const start = document.querySelector('.start');
 const game = document.querySelector('.game');
-const startBtn = document.querySelector('.btn');
+const startBtn = document.getElementById('startBtn');
 startBtn.addEventListener('click', () => {
   start.classList.add('hidden');
   game.classList.remove('hidden');
@@ -23,11 +23,13 @@ paperBtn.addEventListener('click', () => playRound('paper', computerSelection));
 scissorsBtn.addEventListener('click', () => playRound('scissors', computerSelection));
 
 //record scores
+const player = document.getElementById('player');
+const computer = document.getElementById('computer');
 let playerLife = 5;
 let computerLife = 5;
-document.querySelector('#player').textContent = ` ${playerLife}`;
-document.querySelector('#computer').textContent = ` ${computerLife}`;
 
+player.textContent = `${playerLife}`;
+computer.textContent = `${computerLife}`;
 
 //Game:if the player or the computer won or it's a draw:
   //1. Display "Win","Lose" and "Draw" respectively
@@ -41,12 +43,6 @@ const computerSelection = getComputerChoice();
 function playRound(playerSelection, computerSelection) {
   if (playerLife === 5 && computerLife === 5) {
     choices.textContent = 'Previous choices: ';
-  } else {
-    if (playerLife === 0) {
-    displayMessage('Oh no! You died!', 'lose');
-  } else if (computerLife === 0) {
-    displayMessage('Congrats! You defeated death!', 'win');
-  }
   }
   choices.textContent += `${playerSelection} `;
   if ((playerSelection === 'rock' && computerSelection === 'paper') ||
@@ -63,56 +59,56 @@ function playRound(playerSelection, computerSelection) {
         result.textContent = `Draw! You and death both chose ${computerSelection}`;
       }
 
-      document.querySelector('#player').textContent = ` ${playerLife}`;
-      document.querySelector('#computer').textContent = ` ${computerLife}`;
+      player.textContent = `${playerLife}`;
+      computer.textContent = `${computerLife}`;
+
+      if (gameOver()) {
+        openMsgBox();
+        displayMessage();
+      }
 }
 
-function toggle() {
-  const blur = document.getElementById('blur');
-  blur.classList.toggle('active');
-
-  panel.classList.toggle('active');
+//display message when game is over
+function gameOver() {
+  return playerLife === 0 || computerLife === 0;
 }
 
-function displayMessage(msgText, msgType) {
+const msgBox = document.querySelector('.msgBox');
+const msg = document.querySelector('.msg');
+const blur = document.getElementById('blur');
 
-  const panel = document.createElement('div');
-  panel.classList.add('msgBox');
-  body.appendChild(panel);
+function openMsgBox() {
+  msgBox.classList.add('active');
+  blur.classList.add('active');
+}
 
-  const msg = document.createElement('p');
-  msg.textContent = msgText;
-  panel.appendChild(msg);
-
-  const closeBtn = document.createElement('div');
-  closeBtn.textContent = 'Play Again';
-  closeBtn.classList.add('btn');
-  panel.appendChild(closeBtn);
-
-  closeBtn.addEventListener('click', resetGame);
-
-  if (msgType === 'win') {
+function displayMessage() {
+  if (playerLife > computerLife) {
+    msg.textContent = 'Congrats! You defeated death!';
     msg.style.backgroundImage = 'url(images/winner.png)';
-  } else if (msgType === 'lose') {
-    msg.style.backgroundImage = 'url(images/skull.png)';
   } else {
-    msg.style.paddingLeft = '50px';
-  }
+    msg.textContent = 'Oh no! You died!';
+    msg.style.backgroundImage = 'url(images/skull.png)';
+}
 }
 
 //When game restarts, make sure everything resets and start from step 1
-function resetGame() {
-  toggle();
+const closeBtn = document.getElementById('closeBtn');
+closeBtn.addEventListener('click', resetGame);
 
-  panel.parentNode.removeChild(panel);
+function resetGame() {
+  msgBox.classList.remove('active');
+  blur.classList.remove('active');
 
   playerLife = 5;
   computerLife = 5;
+  player.textContent = `${playerLife}`;
+  computer.textContent = `${computerLife}`;
 
   const resetParas = document.querySelectorAll('.resultParas p');
   for (const resetPara of resetParas) {
     resetPara.textContent = '';
   }
 
-  getComputerChoice();
+  computerSelection = getComputerChoice();
 }
