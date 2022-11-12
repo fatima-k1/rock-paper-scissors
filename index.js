@@ -22,13 +22,12 @@ rockBtn.addEventListener('click', () => playRound('rock', computerSelection));
 paperBtn.addEventListener('click', () => playRound('paper', computerSelection));
 scissorsBtn.addEventListener('click', () => playRound('scissors', computerSelection));
 
-//record the round number the player is on. Start it on 1
-let round = 1;
-document.querySelector('.round').textContent = `Round ${round}`;
-
 //record scores
-let playerScore = 0;
-let computerScore = 0;
+let playerLife = 5;
+let computerLife = 5;
+document.querySelector('#player').textContent = ` ${playerLife}`;
+document.querySelector('#computer').textContent = ` ${computerLife}`;
+
 
 //Game:if the player or the computer won or it's a draw:
   //1. Display "Win","Lose" and "Draw" respectively
@@ -40,52 +39,46 @@ const choices = document.querySelector('.choices');
 const computerSelection = getComputerChoice();
 
 function playRound(playerSelection, computerSelection) {
-  if (round === 1) {
+  if (playerLife === 5 && computerLife === 5) {
     choices.textContent = 'Previous choices: ';
+  } else {
+    if (playerLife === 0) {
+    displayMessage('Oh no! You died!', 'lose');
+  } else if (computerLife === 0) {
+    displayMessage('Congrats! You defeated death!', 'win');
   }
-  choices.textContent += `${playerSelection} `
+  }
+  choices.textContent += `${playerSelection} `;
   if ((playerSelection === 'rock' && computerSelection === 'paper') ||
       (playerSelection === 'paper' && computerSelection === 'scissors') ||
       (playerSelection === 'scissors' && computerSelection === 'rock')) {
         result.textContent = `You lost! Death chose ${computerSelection}`;
-        computerScore++;
+        playerLife--;
       } else if ((playerSelection === 'rock' && computerSelection === 'scissors') ||
       (playerSelection === 'paper' && computerSelection === 'rock') ||
       (playerSelection === 'scissors' && computerSelection === 'paper')) {
         result.textContent = `You won! Death chose ${computerSelection}`;
-        playerScore++;
-      } else if (round === 5) {
-        setGameOver();
+        computerLife--;
       } else {
         result.textContent = `Draw! You and death both chose ${computerSelection}`;
       }
 
-      round++;
-      document.querySelector('.round').textContent = `Round ${round}`;
-}
-
-//display message after game over
-function setGameOver() {
-  toggle();
-  if (playerScore > computerScore) {
-    displayMessage('Congrats! You defeated death!', 'win')
-  } else if (playerScore < computerScore) {
-    displayMessage('Oh no! You died!', 'lose')
-  } else {
-    displayMessage("It's a tie!")
-  }
+      document.querySelector('#player').textContent = ` ${playerLife}`;
+      document.querySelector('#computer').textContent = ` ${computerLife}`;
 }
 
 function toggle() {
   const blur = document.getElementById('blur');
   blur.classList.toggle('active');
+
+  panel.classList.toggle('active');
 }
 
 function displayMessage(msgText, msgType) {
 
   const panel = document.createElement('div');
   panel.classList.add('msgBox');
-  game.appendChild(panel);
+  body.appendChild(panel);
 
   const msg = document.createElement('p');
   msg.textContent = msgText;
@@ -113,7 +106,8 @@ function resetGame() {
 
   panel.parentNode.removeChild(panel);
 
-  round = 1;
+  playerLife = 5;
+  computerLife = 5;
 
   const resetParas = document.querySelectorAll('.resultParas p');
   for (const resetPara of resetParas) {

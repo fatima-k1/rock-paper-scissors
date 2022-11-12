@@ -40,10 +40,7 @@ h1, h2, p {
 }
 
 .btn {
-    border-top: 3px solid white;
-    border-left: 3px solid white;
-    border-bottom: 3px solid gray;
-    border-right: 3px solid gray;
+    border: 3px outset lightgray;
     border-radius: 15px;
     width: fit-content;
     margin: 0 auto;
@@ -56,10 +53,7 @@ h1, h2, p {
 }
 
 .btn:hover {
-    border-top: 3px solid gray;
-    border-left: 3px solid gray;
-    border-bottom: 3px solid white;
-    border-right: 3px solid white;
+    border: 3px inset lightgray;
     cursor: pointer;
 }
 
@@ -93,11 +87,6 @@ h3 {
     margin-top: -40px;
 }
 
-.round {
-    font-size: 30px;
-    margin-top: 100px;
-}
-
 .container {
     display: flex;
     justify-content: center;
@@ -120,8 +109,38 @@ h3 {
     cursor: pointer;
 }
 
+#lives {
+    font-size: 40px;
+    margin-top: -5px;
+}
+
+#lives, #scrBrd {
+    font-family: 'Changa', sans-serif;
+    font-weight: 300;
+}
+
+#scrBrd {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    font-size: 30px;
+    border: 1px solid whitesmoke;
+    border-radius: 15px;
+    background-color: #544B44;
+    opacity: 0.5;
+    width: fit-content;
+    margin: -30px auto 0;
+    padding: 15px 15px;
+}
+
+#scrBrd div {
+    display: flex;
+    align-content: flex-start;
+}
+
 .result, .choices {
     font-size: 30px;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .msgBox {
@@ -129,11 +148,21 @@ h3 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 300px;
-    padding: 50px 50px 50px 80px;
+    width: fit-content;
+    height: 300px;
     background-color: #544B44;
-    opacity: 0.8;
+    opacity: 0.5;
+    box-shadow: 0 0 30px rgba(245, 245, 245, 0.5);
+}
+
+.msgBox.active {
+    visibility: visible;
+}
+
+.msgBox p {
+    padding: 50px 50px;
+    padding-left: 150px;
+    font-size: 30px;
     background-position: 25px center;
     background-repeat: no-repeat;
-    box-shadow: 0 0 30px rgba(245, 245, 245, 0.5);
 }
