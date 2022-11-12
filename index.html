@@ -1,9 +1,81 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script src="index.js" defer></script>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Changa&family=Kaushan+Script&family=Poor+Story&display=swap"
+            rel="stylesheet">
         <title>Rock paper scissors</title>
     </head>
     <body>
-        <script src="index.js"></script>
+        <div class="start">
+            <div>
+                <img class="spiderweb"
+                    src="images/spider-web-corner.png"
+                    alt="spiderweb"
+                >
+            </div>
+            <div class="startinfo">
+                <h1>!!!BEWARE!!!</h1>
+                <p>Proceed with caution... this is a game of life and death</p>
+            </div>
+            <div class="btn" id="startBtn">
+                Play at your own risk
+            </div>
+        </div>
+        <div class="game hidden" id="blur">
+            <div class="gameinfo">
+                <h2>You're now playing against death!</h2>
+                <img src="images/grim-reaper.png"
+                    alt="Grim reaper icon created by Good Ware https://flaticon.com"
+                >
+                <h3>CHOOSE ONE</h3>
+                <p>Rock beats scissors, paper beats rock and scissors beats paper</p>
+            </div>
+            <div class="container">
+                <div>
+                    <img class="btns"
+                        src="images/rock.png"
+                        alt="rock icon by https://icons8.com"
+                    >
+                    <p>Rock</p>
+                </div>
+                <div>
+                    <img class="btns"
+                        src="images/paper.png"
+                        alt="paper icon by https://icons8.com"
+                    >
+                    <p>Paper</p>
+                </div>
+                <div>
+                    <img class="btns"
+                        src="images/scissors.png"
+                        alt="scissors icon by https://icons8.com"
+                    >
+                    <p>Scissors</p>
+                </div>
+            </div>
+            <p id="lives">LIVES</p>
+            <div id="scrBrd">
+                <div>
+                    <div>You:</div>
+                    <div id="player"></div>
+                </div>
+                <div>
+                    <div>Death:</div>
+                    <div id="computer"></div>
+                </div>
+            </div>
+            <div class="resultParas">
+                <p class="result"></p>
+                <p class="choices"></p>
+            </div>
+        </div>
+        <div class="msgBox">
+            <p class="msg"></p>
+            <div class="btn" id="closeBtn">Play again</div>
+        </div>
     </body>
 </html>

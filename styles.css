@@ -1,0 +1,171 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.start {
+    padding: 100px 0 0 0;
+    height: 100%;
+}
+.start, .game {
+    background-color: black;
+    color: white;
+    font-family: 'Kaushan Script', cursive;
+    text-align: center;
+}
+
+.game#blur.active {
+    filter: blur(20px);
+    pointer-events: none;
+    user-select: none;
+}
+
+.spiderweb {
+    width: 200px;
+    height: 230px;
+    position: absolute;
+    top: -25px;
+    right: 15px;
+    transform: rotate(90deg);
+}
+
+h1, h2, p {
+    font-size: 50px;
+}
+
+.btn {
+    border: 3px outset lightgray;
+    border-radius: 15px;
+    width: fit-content;
+    margin: 0 auto;
+    font-size: 30px;
+    font-family: 'Poor Story', cursive;
+    padding: 10px 10px;
+    opacity: 0;
+    animation: fade-in ease-in 3s forwards;
+    animation-delay: 2s;
+}
+
+.btn:hover {
+    border: 3px inset lightgray;
+    cursor: pointer;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+.gameinfo {
+    padding-top: 10px;
+}
+
+h3 {
+    font-family: 'Changa', sans-serif;
+    font-size: 40px;
+    font-weight: 300;
+    padding-top: 120px;
+}
+
+.gameinfo p {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+    margin-top: -40px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    padding-top: 50px;
+}
+
+.container p {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+    margin-top: -5px;
+}
+
+.btns {
+    width: 100px;
+    height: 100px;
+    border: 1px solid whitesmoke;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+#lives {
+    font-size: 40px;
+    margin-top: -5px;
+}
+
+#lives, #scrBrd {
+    font-family: 'Changa', sans-serif;
+    font-weight: 300;
+}
+
+#scrBrd {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    font-size: 30px;
+    border: 1px solid whitesmoke;
+    border-radius: 15px;
+    background-color: #544B44;
+    opacity: 0.5;
+    width: fit-content;
+    margin: -30px auto 0;
+    padding: 15px 15px;
+}
+
+#scrBrd div {
+    display: flex;
+    align-content: flex-start;
+}
+
+.result, .choices {
+    font-size: 30px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.msgBox {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+    height: 300px;
+    background-color: #544B44;
+    opacity: 0;
+    box-shadow: 0 0 30px rgba(245, 245, 245, 0.5);
+    visibility: hidden;
+    transition: opacity 0.5s ease-out;
+}
+
+.msgBox.active {
+    visibility: visible;
+    opacity: 0.5;
+}
+
+.msg {
+    padding: 50px 50px;
+    padding-left: 150px;
+    font-size: 30px;
+    background-position: 25px center;
+    background-repeat: no-repeat;
+}

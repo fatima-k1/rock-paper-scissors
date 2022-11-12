@@ -1,62 +1,114 @@
-//Record the round number the player is on. Start it on 1
-//Provide the player with a way to choose between rock, paper or scissors
-//The player will play against the computer so return either rock,paper or scissors
-//Once a round ends, record it somewhere so the player can see the results of the previous rounds
-//Next, check who won that round and record the score
-//If the player or the computer won or it's a draw:
-  //1. Display "Win","Lose" and "Draw" respectively
-  //2. Let the player choose again and return one of the 3 again
-  //3. Increment the round number by 1
-//If the player's score is more than the computer's:
-  //1. Display congratulations message
-  //2. Stop the player from being able to choose again
-  //3. Display control allowing the player to restart the game
-//If the computer's score is more than the player's, tell the player they lost and repeat steps 2 and 3 above
-//If the scores are the same, tell the player it's a tie and repeat steps 2 and 3
-//When game restarts, make sure everything resets and start from step 1
-//Provide instructions on how to play
+const start = document.querySelector('.start');
+const game = document.querySelector('.game');
+const startBtn = document.getElementById('startBtn');
+startBtn.addEventListener('click', () => {
+  start.classList.add('hidden');
+  game.classList.remove('hidden');
+});
 
+
+//Get computer's choice
 const choice = ['rock', 'paper', 'scissors'];
-let playerScore = 0;
-let computerScore = 0;
-
 function getComputerChoice() {
   return choice[Math.floor(Math.random() * choice.length)]
 }
 
-function round(playerSelection, computerSelection) {
-  if ((playerSelection.toLowerCase() === 'rock' && computerSelection === 'paper')
-      || (playerSelection.toLowerCase() === 'paper' && computerSelection === 'scissors')
-      || (playerSelection.toLowerCase() === 'scissors' && computerSelection === 'rock')) {
-        alert ('You lose!');
-        computerScore++;
-      } else if ((playerSelection.toLowerCase() === 'rock' && computerSelection === 'scissors')
-      || (playerSelection.toLowerCase() === 'paper' && computerSelection === 'rock')
-      || (playerSelection.toLowerCase() === 'scissors' && computerSelection === 'paper')) {
-        alert('You win!');
-        playerScore++;
+//Provide the player with a way to choose between rock, paper or scissors
+const rockBtn = document.getElementsByClassName('btns')[0];
+const paperBtn = document.getElementsByClassName('btns')[1];
+const scissorsBtn = document.getElementsByClassName('btns')[2];
+
+rockBtn.addEventListener('click', () => playRound('rock', computerSelection));
+paperBtn.addEventListener('click', () => playRound('paper', computerSelection));
+scissorsBtn.addEventListener('click', () => playRound('scissors', computerSelection));
+
+//record scores
+const player = document.getElementById('player');
+const computer = document.getElementById('computer');
+let playerLife = 5;
+let computerLife = 5;
+
+player.textContent = `${playerLife}`;
+computer.textContent = `${computerLife}`;
+
+//Game:if the player or the computer won or it's a draw:
+  //1. Display "Win","Lose" and "Draw" respectively
+  //2. Let the player choose again and return one of the 3 again
+  //3. Increment the round number by 1
+  //4. let player see previous choices
+const result = document.querySelector('.result');
+const choices = document.querySelector('.choices');
+const computerSelection = getComputerChoice();
+
+function playRound(playerSelection, computerSelection) {
+  if (playerLife === 5 && computerLife === 5) {
+    choices.textContent = 'Previous choices: ';
+  }
+  choices.textContent += `${playerSelection} `;
+  if ((playerSelection === 'rock' && computerSelection === 'paper') ||
+      (playerSelection === 'paper' && computerSelection === 'scissors') ||
+      (playerSelection === 'scissors' && computerSelection === 'rock')) {
+        result.textContent = `You lost! Death chose ${computerSelection}`;
+        playerLife--;
+      } else if ((playerSelection === 'rock' && computerSelection === 'scissors') ||
+      (playerSelection === 'paper' && computerSelection === 'rock') ||
+      (playerSelection === 'scissors' && computerSelection === 'paper')) {
+        result.textContent = `You won! Death chose ${computerSelection}`;
+        computerLife--;
       } else {
-        alert('Draw!');
+        result.textContent = `Draw! You and death both chose ${computerSelection}`;
+      }
+
+      player.textContent = `${playerLife}`;
+      computer.textContent = `${computerLife}`;
+
+      if (gameOver()) {
+        openMsgBox();
+        displayMessage();
       }
 }
 
-function game() {
-  for (let i = 0; i < 5; i++) {
-    const playerSelection = prompt('Choose rock, paper or scissors');
-    const computerSelection = getComputerChoice();
-    round(playerSelection, computerSelection);
-  }
-  result();
+//display message when game is over
+function gameOver() {
+  return playerLife === 0 || computerLife === 0;
 }
 
-function result() {
-  if (playerScore > computerScore) {
-    alert('Congratulations! You win!')
-  } else if (playerScore < computerScore) {
-    alert('You lost! Better luck next time!')
+const msgBox = document.querySelector('.msgBox');
+const msg = document.querySelector('.msg');
+const blur = document.getElementById('blur');
+
+function openMsgBox() {
+  msgBox.classList.add('active');
+  blur.classList.add('active');
+}
+
+function displayMessage() {
+  if (playerLife > computerLife) {
+    msg.textContent = 'Congrats! You defeated death!';
+    msg.style.backgroundImage = 'url(images/winner.png)';
   } else {
-    alert("It's a tie!")
-  }
+    msg.textContent = 'Oh no! You died!';
+    msg.style.backgroundImage = 'url(images/skull.png)';
+}
 }
 
-game();
+//When game restarts, make sure everything resets and start from step 1
+const closeBtn = document.getElementById('closeBtn');
+closeBtn.addEventListener('click', resetGame);
+
+function resetGame() {
+  msgBox.classList.remove('active');
+  blur.classList.remove('active');
+
+  playerLife = 5;
+  computerLife = 5;
+  player.textContent = `${playerLife}`;
+  computer.textContent = `${computerLife}`;
+
+  const resetParas = document.querySelectorAll('.resultParas p');
+  for (const resetPara of resetParas) {
+    resetPara.textContent = '';
+  }
+
+  computerSelection = getComputerChoice();
+}
