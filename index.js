@@ -10,7 +10,7 @@ startBtn.addEventListener('click', () => {
 //Get computer's choice
 const choice = ['rock', 'paper', 'scissors'];
 function getComputerChoice() {
-  return choice[Math.floor(Math.random() * choice.length)]
+  return choice[Math.floor(Math.random() * choice.length)];
 }
 
 //Provide the player with a way to choose between rock, paper or scissors
@@ -18,9 +18,9 @@ const rockBtn = document.getElementsByClassName('btns')[0];
 const paperBtn = document.getElementsByClassName('btns')[1];
 const scissorsBtn = document.getElementsByClassName('btns')[2];
 
-rockBtn.addEventListener('click', () => playRound('rock', computerSelection));
-paperBtn.addEventListener('click', () => playRound('paper', computerSelection));
-scissorsBtn.addEventListener('click', () => playRound('scissors', computerSelection));
+rockBtn.addEventListener('click', () => playRound('rock', getComputerChoice()));
+paperBtn.addEventListener('click', () => playRound('paper', getComputerChoice()));
+scissorsBtn.addEventListener('click', () => playRound('scissors', getComputerChoice()));
 
 //record scores
 const player = document.getElementById('player');
@@ -38,7 +38,6 @@ computer.textContent = `${computerLife}`;
   //4. let player see previous choices
 const result = document.querySelector('.result');
 const choices = document.querySelector('.choices');
-const computerSelection = getComputerChoice();
 
 function playRound(playerSelection, computerSelection) {
   if (playerLife === 5 && computerLife === 5) {
@@ -109,6 +108,4 @@ function resetGame() {
   for (const resetPara of resetParas) {
     resetPara.textContent = '';
   }
-
-  computerSelection = getComputerChoice();
 }
